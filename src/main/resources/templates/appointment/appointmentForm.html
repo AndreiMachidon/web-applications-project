@@ -1,0 +1,24 @@
+<h2>Appointment Form</h2>
+<form action="#" th:action="@{/appointments}" th:object="${appointment}" method="post">
+    <input type="hidden" th:field="*{id}"/>
+
+    Start: <input type="datetime-local" th:field="*{startTime}"/><br/>
+    End: <input type="datetime-local" th:field="*{endTime}"/><br/>
+    Status: <select th:field="*{status}">
+    <option>PENDING</option>
+    <option>CONFIRMED</option>
+    <option>CANCELLED</option>
+</select><br/>
+
+    Doctor:
+    <select th:field="*{doctor.id}">
+        <option th:each="d : ${doctors}" th:value="${d.id}" th:text="${d.name}"/>
+    </select><br/>
+
+    Patient:
+    <select th:field="*{patient.id}">
+        <option th:each="p : ${patients}" th:value="${p.id}" th:text="${p.name}"/>
+    </select><br/>
+
+    <button type="submit">Save</button>
+</form>

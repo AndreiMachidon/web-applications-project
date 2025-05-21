@@ -1,0 +1,25 @@
+<h2>Appointments</h2>
+<a href="/appointments/form">New Appointment</a>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Doctor</th>
+        <th>Patient</th>
+        <th>Start</th>
+        <th>End</th>
+        <th>Status</th>
+        <th>Actions</th>
+    </tr>
+    <tr th:each="a : ${appointments}">
+        <td th:text="${a.id}"/>
+        <td th:text="${a.doctor.name}"/>
+        <td th:text="${a.patient.name}"/>
+        <td th:text="${a.startTime}"/>
+        <td th:text="${a.endTime}"/>
+        <td th:text="${a.status}"/>
+        <td>
+            <a th:href="@{'/appointments/edit/' + ${a.id}}">Edit</a> |
+            <a th:href="@{'/appointments/delete/' + ${a.id}}">Delete</a>
+        </td>
+    </tr>
+</table>
