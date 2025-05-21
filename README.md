@@ -29,3 +29,5 @@
 
 ### 1. Clone the Repository
 ```bash
+git clone https://github.com/AndreiMachidon/web-applications-project.git
+cd web-applications-project/project-web
