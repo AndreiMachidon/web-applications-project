@@ -8,6 +8,7 @@ import com.andrei.project_web.service.PatientService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,72 +17,50 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
-@Controller
-@RequestMapping("/appointments")
+@RestController
+@RequestMapping("/api/appointments")
 public class AppointmentController {
 
     private final AppointmentService appointmentService;
-    private final DoctorService doctorService;
-    private final PatientService patientService;
 
     @Autowired
-    public AppointmentController(AppointmentService appointmentService,
-                                 DoctorService doctorService,
-                                 PatientService patientService) {
+    public AppointmentController(AppointmentService appointmentService) {
         this.appointmentService = appointmentService;
-        this.doctorService = doctorService;
-        this.patientService = patientService;
     }
 
-    @GetMapping("")
-    public String listAppointments(Model model) {
+    @GetMapping
+    public ResponseEntity<List<AppointmentDTO>> getAllAppointments() {
         List<AppointmentDTO> appointments = appointmentService.findAll();
-        model.addAttribute("appointments", appointments);
-        return "appointmentList"; // ➜ resources/templates/appointmentList.html
+        return ResponseEntity.ok(appointments);
     }
 
-    @GetMapping("/form")
-    public String showCreateForm(Model model) {
-        model.addAttribute("appointment", new AppointmentDTO());
-        model.addAttribute("doctors", doctorService.findAll());
-        model.addAttribute("patients", patientService.findAll());
-        return "appointmentForm"; // ➜ resources/templates/appointmentForm.html
-    }
-
-    @PostMapping("")
-    public String saveOrUpdate(@Valid @ModelAttribute("appointment") AppointmentDTO appointment,
-                               BindingResult result,
-                               Model model) {
-        if (result.hasErrors()) {
-            model.addAttribute("doctors", doctorService.findAll());
-            model.addAttribute("patients", patientService.findAll());
-            return "appointmentForm";
-        }
-
-        appointmentService.save(appointment);
-        return "redirect:/appointments";
-    }
-
-    @GetMapping("/edit/{id}")
-    public String edit(@PathVariable Long id, Model model) {
+    @GetMapping("/{id}")
+    public ResponseEntity<AppointmentDTO> getAppointmentById(@PathVariable Long id) {
         AppointmentDTO appointment = appointmentService.findById(id);
-        model.addAttribute("appointment", appointment);
-        model.addAttribute("doctors", doctorService.findAll());
-        model.addAttribute("patients", patientService.findAll());
-        return "appointmentForm";
+        return ResponseEntity.ok(appointment);
     }
 
-    @GetMapping("/delete/{id}")
-    public String delete(@PathVariable Long id) {
+    @PostMapping
+    public ResponseEntity<AppointmentDTO> createAppointment(@RequestBody @Valid AppointmentDTO appointment) {
+        AppointmentDTO saved = appointmentService.save(appointment);
+        return new ResponseEntity<>(saved, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<AppointmentDTO> updateAppointment(@PathVariable Long id, @RequestBody @Valid AppointmentDTO appointment) {
+        appointment.setId(id);
+        AppointmentDTO updated = appointmentService.save(appointment);
+        return ResponseEntity.ok(updated);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteAppointment(@PathVariable Long id) {
         appointmentService.deleteById(id);
-        return "redirect:/appointments";
+        return ResponseEntity.noContent().build();
     }
 
-    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ModelAndView handleNotFound(Exception ex) {
-        ModelAndView mav = new ModelAndView("notFoundException");
-        mav.addObject("exception", ex);
-        return mav;
+    public ResponseEntity<String> handleNotFound(ResourceNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 }
