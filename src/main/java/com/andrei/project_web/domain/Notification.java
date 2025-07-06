@@ -21,10 +21,11 @@ public class Notification {
     private long id;
     private String message;
     private LocalDateTime sentAt;
+
+    @Column(name = "is_read")
     private boolean read;
 
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
-
-
 }

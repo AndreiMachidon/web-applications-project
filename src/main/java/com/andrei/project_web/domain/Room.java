@@ -1,6 +1,7 @@
 package com.andrei.project_web.domain;
 
 import com.andrei.project_web.domain.enums.RoomType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,8 +25,10 @@ public class Room {
     private int capacity;
 
     @ManyToOne
+    @JoinColumn(name = "clinic_id")
     private Clinic clinic;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Schedule> schedules;
 }

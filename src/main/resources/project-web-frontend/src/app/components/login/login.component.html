@@ -1,0 +1,35 @@
+<div class="login-wrapper">
+  <div class="login-box mat-elevation-z8">
+    <div class="login-header">
+      <mat-icon class="login-icon">local_hospital</mat-icon>
+      <h1>Medical Cliniq</h1>
+      <p class="subtitle">Sign in to continue</p>
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Username</mat-label>
+        <input matInput formControlName="username" placeholder="Enter your username" />
+        <mat-error *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched">
+          Username is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" formControlName="password" placeholder="Enter your password" />
+        <mat-error *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+          Password is required
+        </mat-error>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" class="login-button" type="submit" [disabled]="loginForm.invalid">
+        Login
+      </button>
+    </form>
+
+    <mat-error *ngIf="loginError" class="error-message">
+      {{ loginError }}
+    </mat-error>
+  </div>
+</div>

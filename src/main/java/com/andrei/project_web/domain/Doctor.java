@@ -2,6 +2,7 @@ package com.andrei.project_web.domain;
 
 import com.andrei.project_web.domain.enums.Role;
 import com.andrei.project_web.domain.security.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,7 +25,6 @@ public class Doctor {
     private String email;
     private String specialization;
     private String licenseNumber;
-    private Role role;
 
     @ManyToMany
     @JoinTable(
@@ -34,13 +34,15 @@ public class Doctor {
     )
     private List<Clinic> clinics;
 
-
+    @JsonIgnore
     @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Appointment> appointments;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MedicalRecord> medicalRecords;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Schedule> schedules;
 

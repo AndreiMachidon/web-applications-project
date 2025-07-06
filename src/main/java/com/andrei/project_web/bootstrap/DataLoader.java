@@ -14,28 +14,54 @@ import lombok.NoArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Profile("mysql")
+@Component
 public class DataLoader implements CommandLineRunner {
 
-    private AuthorityRepository authorityRepository;
-    private UserRepository userRepository;
-    private PasswordEncoder passwordEncoder;
-    private DoctorRepository doctorRepository;
-    private PatientRepository patientRepository;
-    private ClinicRepository clinicRepository;
-    private RoomRepository roomRepository;
-    private ScheduleRepository scheduleRepository;
-    private MedicalRecordRepository medicalRecordRepository;
-    private ConsultationRepository consultationRepository;
-    private AppointmentRepository appointmentRepository;
-    private NotificationRepository notificationRepository;
+    private final AuthorityRepository authorityRepository;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final DoctorRepository doctorRepository;
+    private final PatientRepository patientRepository;
+    private final ClinicRepository clinicRepository;
+    private final RoomRepository roomRepository;
+    private final ScheduleRepository scheduleRepository;
+    private final MedicalRecordRepository medicalRecordRepository;
+    private final ConsultationRepository consultationRepository;
+    private final AppointmentRepository appointmentRepository;
+    private final NotificationRepository notificationRepository;
+
+    public DataLoader(AuthorityRepository authorityRepository,
+                      UserRepository userRepository,
+                      PasswordEncoder passwordEncoder,
+                      DoctorRepository doctorRepository,
+                      PatientRepository patientRepository,
+                      ClinicRepository clinicRepository,
+                      RoomRepository roomRepository,
+                      ScheduleRepository scheduleRepository,
+                      MedicalRecordRepository medicalRecordRepository,
+                      ConsultationRepository consultationRepository,
+                      AppointmentRepository appointmentRepository,
+                      NotificationRepository notificationRepository) {
+        this.authorityRepository = authorityRepository;
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.doctorRepository = doctorRepository;
+        this.patientRepository = patientRepository;
+        this.clinicRepository = clinicRepository;
+        this.roomRepository = roomRepository;
+        this.scheduleRepository = scheduleRepository;
+        this.medicalRecordRepository = medicalRecordRepository;
+        this.consultationRepository = consultationRepository;
+        this.appointmentRepository = appointmentRepository;
+        this.notificationRepository = notificationRepository;
+    }
 
 
     private void loadUserData() {

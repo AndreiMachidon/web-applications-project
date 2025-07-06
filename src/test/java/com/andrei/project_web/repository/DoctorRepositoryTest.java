@@ -31,7 +31,6 @@ public class DoctorRepositoryTest {
         testEntity.setEmail("test@example.com");
         testEntity.setSpecialization("N/A");
         testEntity.setLicenseNumber("N/A");
-        testEntity.setRole(com.andrei.project_web.domain.enums.Role.DOCTOR);
         repository.save(testEntity);
     }
 
@@ -54,7 +53,6 @@ public class DoctorRepositoryTest {
         testEntity.setEmail("test@example.com");
         testEntity.setSpecialization("N/A");
         testEntity.setLicenseNumber("N/A");
-        testEntity.setRole(com.andrei.project_web.domain.enums.Role.DOCTOR);
         Doctor saved = repository.save(newEntity);
         assertNotNull(saved.getId(), "Entitatea salvată trebuie să aibă ID");
     }

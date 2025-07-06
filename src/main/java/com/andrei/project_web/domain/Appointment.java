@@ -25,11 +25,14 @@ public class Appointment {
     private Status status;
 
     @ManyToOne
+    @JoinColumn(name = "patient_id")
     private Patient patient;
 
     @ManyToOne
+    @JoinColumn(name = "doctor_id")
     private Doctor doctor;
 
     @OneToOne
+    @JoinColumn(name = "consultation_id")
     private Consultation consultation;
 }

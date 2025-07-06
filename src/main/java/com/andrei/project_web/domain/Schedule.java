@@ -22,9 +22,10 @@ public class Schedule {
     private LocalDateTime scheduleDateTime;
 
     @ManyToOne
+    @JoinColumn(name = "room_id")
     private Room room;
 
     @ManyToOne
+    @JoinColumn(name = "doctor_id")
     private Doctor doctor;
-
 }
